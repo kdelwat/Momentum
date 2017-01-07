@@ -46,12 +46,21 @@ const todos = [
 
 export default class MainScene extends Component {
 
-  // Handle list items being pressed
-  listItemPressed = (id) => {
-    console.log(id);
+  // Open the edit screen for the given list item
+  editListItem = (id) => {
   };
 
-  // Given a todo object and index, return a ListItem
+  // Promote the given list item from Upcoming/Active -> Completed
+  completeListItem = (id) => {
+    // Find the task with the right ID
+    const index = todos.findIndex(x => x.id === id);
+    // Set its state to completed
+    todos[index].status = 2;
+    // Force a re-render
+    this.setState(this.state);
+  };
+
+  // Given a task object and index, return a ListItem
   renderListItem(listItem, index) {
     return (<ListItem
       key={index}
@@ -60,14 +69,18 @@ export default class MainScene extends Component {
       subtitle={'test'}
       badge={{value: listItem.daysRemaining}}
       // The onPress function will call listItemPressed with the item's ID.
-      onPress={() => this.listItemPressed(listItem.id)}/>)
+      onPress={() => this.editListItem(listItem.id)}
+      onLongPress={() => this.completeListItem(listItem.id)}
+    />)
   }
 
   render() {
     return (
       <View style={styles.container}>
 
-        <ScrollableTabView renderTabBar={() => <DefaultTabBar />}>
+        <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
+                           prerenderingSiblingsNumber={Infinity}
+        >
           <List tabLabel={'Completed'}>
             {
               todos.filter(x => x.status === 2)
