@@ -4,6 +4,11 @@ import {View, StyleSheet} from 'react-native'
 import {Button, Icon, ButtonGroup, Text, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
 
+const COLORS = {
+  priority1: 'red',
+  priority2: 'orange',
+  priority3: 'green'
+};
 
 export default class MainScene extends Component {
 
@@ -23,7 +28,7 @@ export default class MainScene extends Component {
     {
       title: 'Do this active thing',
       id: 125,
-      daysRemaining: 3,
+      daysRemaining: 0,
       status: 1,
     },
     {
@@ -61,6 +66,17 @@ export default class MainScene extends Component {
     this.setState({tasks});
   };
 
+  // Return a color dependent on the urgency of the task, based on days remaining
+  priorityColor(daysRemaining) {
+    if (daysRemaining <= 1) {
+      return COLORS.priority1;
+    } else if (daysRemaining > 7) {
+      return COLORS.priority3;
+    } else {
+      return COLORS.priority2;
+    }
+  }
+
   // Given a task object and index, return a ListItem
   renderListItem(listItem, index) {
     return (<ListItem
@@ -68,7 +84,8 @@ export default class MainScene extends Component {
       title={listItem.title}
       hideChevron={true}
       subtitle={'test'}
-      badge={{value: listItem.daysRemaining}}
+      badge={{value: listItem.daysRemaining,
+              badgeContainerStyle: {backgroundColor: this.priorityColor(listItem.daysRemaining)}}}
       // The onPress function will call listItemPressed with the item's ID.
       onPress={() => this.editListItem(listItem.id)}
       onLongPress={() => this.completeListItem(listItem.id)}
