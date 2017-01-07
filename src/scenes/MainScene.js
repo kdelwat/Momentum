@@ -82,6 +82,7 @@ export default class MainScene extends Component {
 
         <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
                            prerenderingSiblingsNumber={Infinity}
+                           initialPage={1}
         >
           <List tabLabel={'Completed'}>
             {
