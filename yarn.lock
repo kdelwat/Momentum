@@ -9,7 +9,7 @@
     hoist-non-react-statics "^1.2.0"
     lodash "^4.15.0"
 
-"@shoutem/theme@^0.8.8":
+"@shoutem/theme@^0.8.8", "@shoutem/theme@^0.8.9":
   version "0.8.9"
   resolved "https://registry.yarnpkg.com/@shoutem/theme/-/theme-0.8.9.tgz#125b15fd81894a9521133d185e6e8ff8fd8fb173"
   dependencies:
@@ -3042,9 +3042,9 @@ react-native-gesture-responder@0.1.1:
   dependencies:
     react-timer-mixin "^0.13.3"
 
-"react-native-lightbox@git+https://github.com/shoutem/react-native-lightbox.git#master":
+"react-native-lightbox@git+https://github.com/shoutem/react-native-lightbox#master":
   version "0.6.0"
-  resolved "git+https://github.com/shoutem/react-native-lightbox.git#42f63838a9e778bb554275b10f029140071f35d1"
+  resolved "git+https://github.com/shoutem/react-native-lightbox#42f63838a9e778bb554275b10f029140071f35d1"
   dependencies:
     react-native-view-transformer "0.0.28"
     react-timer-mixin "^0.13.3"
@@ -3057,7 +3057,7 @@ react-native-share@^1.0.13:
   version "1.0.17"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.0.17.tgz#1a2bcc9fa70d61e66119c5474a56ba8b46a511f1"
 
-"react-native-transformable-image@github:ldn0x7dc/react-native-transformable-image#master":
+react-native-transformable-image@ldn0x7dc/react-native-transformable-image#master:
   version "0.0.18"
   resolved "https://codeload.github.com/ldn0x7dc/react-native-transformable-image/tar.gz/73fe2fb2481603674473894207b34d3c2f4c5238"
   dependencies:
@@ -3070,7 +3070,7 @@ react-native-vector-icons@^2.0.3:
     lodash "^4.0.0"
     yargs "^4.7.0"
 
-react-native-view-transformer@0.0.28, "react-native-view-transformer@github:ldn0x7dc/react-native-view-transformer#master":
+react-native-view-transformer@0.0.28, react-native-view-transformer@ldn0x7dc/react-native-view-transformer#master:
   version "0.0.28"
   resolved "https://codeload.github.com/ldn0x7dc/react-native-view-transformer/tar.gz/f7e028b6566022deac4e523052e74c2c63a4af7e"
   dependencies:
