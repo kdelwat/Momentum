@@ -43,6 +43,7 @@ export default class EditScene extends Component {
   onChangeText = (title) => this.setState({title: title});
   onChangeDeadline = (date) => this.setState({deadline: date});
   onChangeActive = (date) => this.setState({active: date});
+  setActiveToDeadline = () => this.setState({active: this.state.deadline});
 
   render() {
     return (
@@ -67,6 +68,9 @@ export default class EditScene extends Component {
           format={TIMEDATE_FORMAT}
           onDateChange={this.onChangeActive}
         />
+        <Button title="Same as deadline"
+                raised
+                onPress={this.setActiveToDeadline} />
         <Button title="Done"
                 raised
                 onPress={this.finished}/>
