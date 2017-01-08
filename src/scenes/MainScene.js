@@ -3,11 +3,20 @@ import React, {Component} from 'react'
 import {View, StyleSheet} from 'react-native'
 import {Button, Icon, ButtonGroup, Text, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
+import moment from 'moment'
+import 'moment/locale/en-au'
 
 const COLORS = {
   priority1: 'red',
   priority2: 'orange',
   priority3: 'green'
+};
+
+const NOW = moment();
+
+// Get the days remaining until a Moment
+function daysRemaining(futureMoment) {
+  return futureMoment.diff(NOW, 'days')
 };
 
 export default class MainScene extends Component {
@@ -16,38 +25,23 @@ export default class MainScene extends Component {
     {
       title: 'Do this upcoming thing',
       id: 123,
-      daysRemaining: 3,
       status: 0,
-    },
-    {
-      title: 'Do this other upcoming thing',
-      id: 124,
-      daysRemaining: 5,
-      status: 0,
+      active: moment('2017-01-08 09:30'),
+      deadline: moment('2017-01-09 10:20'),
     },
     {
       title: 'Do this active thing',
       id: 125,
-      daysRemaining: 0,
       status: 1,
-    },
-    {
-      title: 'Do this other active thing',
-      id: 126,
-      daysRemaining: 5,
-      status: 1,
+      active: moment('2017-01-19 09:30'),
+      deadline: moment('2017-02-22 10:20'),
     },
     {
       title: 'Do this completed thing',
       id: 127,
-      daysRemaining: 3,
       status: 2,
-    },
-    {
-      title: 'Do this other completed thing',
-      id: 128,
-      daysRemaining: 22,
-      status: 2,
+      active: moment('2017-02-13 09:30'),
+      deadline: moment('2017-02-18 10:20'),
     },
   ]};
 
@@ -83,9 +77,9 @@ export default class MainScene extends Component {
       key={index}
       title={listItem.title}
       hideChevron={true}
-      subtitle={'test'}
-      badge={{value: listItem.daysRemaining,
-              badgeContainerStyle: {backgroundColor: this.priorityColor(listItem.daysRemaining)}}}
+      subtitle={listItem.deadline.format()}
+      badge={{value: daysRemaining(listItem.deadline),
+              badgeContainerStyle: {backgroundColor: this.priorityColor(daysRemaining(listItem.deadline))}}}
       // The onPress function will call listItemPressed with the item's ID.
       onPress={() => this.editListItem(listItem.id)}
       onLongPress={() => this.completeListItem(listItem.id)}
