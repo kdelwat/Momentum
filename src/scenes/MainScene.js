@@ -1,6 +1,6 @@
 /*The main scene of the app: a list of tasks*/
 import React, {Component} from 'react'
-import {View, StyleSheet, AsyncStorage} from 'react-native'
+import {View, StyleSheet, AsyncStorage, ScrollView} from 'react-native'
 import {Button, Icon, ButtonGroup, Text, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
 import moment from 'moment'
@@ -214,31 +214,35 @@ export default class MainScene extends Component {
     const {tasks} = this.state;
     return (
       <View style={styles.container}>
-
         <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
                            prerenderingSiblingsNumber={Infinity}
-                           initialPage={1}
         >
-          <List tabLabel={'Completed'}>
-            {
-              tasks.filter(x => this.getTaskStatus(x) === 2)
-                .map((listItem, index) => this.renderListItem(listItem, index))
-            }
-          </List>
-          <List tabLabel={'Active'}>
-            {
-              tasks.filter(x => this.getTaskStatus(x) === 1)
-                .sort(compareTasks)
-                .map((listItem, index) => this.renderListItem(listItem, index))
-            }
-          </List>
-          <List tabLabel={'Upcoming'}>
-            {
-              tasks.filter(x => this.getTaskStatus(x) === 0)
-                .sort(compareTasks)
-                .map((listItem, index) => this.renderListItem(listItem, index))
-            }
-          </List>
+          <ScrollView tabLabel={'Active'}>
+            <List>
+              {
+                tasks.filter(x => this.getTaskStatus(x) === 1)
+                  .sort(compareTasks)
+                  .map((listItem, index) => this.renderListItem(listItem, index))
+              }
+            </List>
+          </ScrollView>
+          <ScrollView tabLabel={'Upcoming'}>
+            <List>
+              {
+                tasks.filter(x => this.getTaskStatus(x) === 0)
+                  .sort(compareTasks)
+                  .map((listItem, index) => this.renderListItem(listItem, index))
+              }
+            </List>
+          </ScrollView>
+          <ScrollView tabLabel={'Completed'}>
+            <List>
+              {
+                tasks.filter(x => this.getTaskStatus(x) === 2)
+                  .map((listItem, index) => this.renderListItem(listItem, index))
+              }
+            </List>
+          </ScrollView>
         </ScrollableTabView>
 
         <View style={styles.horizontal}>
