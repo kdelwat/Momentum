@@ -1,7 +1,8 @@
 /* The edit task scene */
 
 import React, {Component} from 'react'
-import {View, TextInput} from 'react-native'
+import {View, StyleSheet} from 'react-native'
+import {FormLabel, FormInput, Text, Button} from 'react-native-elements'
 
 export default class EditScene extends Component {
 
@@ -33,11 +34,29 @@ export default class EditScene extends Component {
 
   render() {
     return (
-      <View>
-        <TextInput placeholder="New name"
-                   onChangeText={this.onChangeText}
-                   onSubmitEditing={this.finished} />
+      <View style={styles.container}>
+        <View style={styles.horizontal}>
+          <Text h1>Edit task</Text>
+        </View>
+        <FormLabel>Title</FormLabel>
+        <FormInput placeholder={this.props.task.title}
+                   onChangeText={this.onChangeText}/>
+        <Button title="Done"
+                raised
+                onPress={this.finished}/>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 30,
+    backgroundColor: '#FFFFFF'
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  }
+});
