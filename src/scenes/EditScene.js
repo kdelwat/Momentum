@@ -6,6 +6,7 @@ import {FormLabel, FormInput, Text, Button} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import moment from 'moment'
 import 'moment/locale/en-au'
+import {styles} from '../Styles'
 
 const TIMEDATE_FORMAT = 'YYYY-MM-DD HH:mm';
 
@@ -78,15 +79,3 @@ export default class EditScene extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 30,
-    backgroundColor: '#FFFFFF'
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  }
-});

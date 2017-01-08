@@ -6,11 +6,7 @@ import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-vi
 import moment from 'moment'
 import 'moment/locale/en-au'
 
-const COLORS = {
-  priority1: 'red',
-  priority2: 'orange',
-  priority3: 'green'
-};
+import {colors, styles} from '../Styles'
 
 const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
 const NOW = moment();
@@ -187,11 +183,11 @@ export default class MainScene extends Component {
   // Return a color dependent on the urgency of the task, based on days remaining
   priorityColor(daysRemaining) {
     if (daysRemaining <= 1) {
-      return COLORS.priority1;
+      return colors.priority1;
     } else if (daysRemaining > 7) {
-      return COLORS.priority3;
+      return colors.priority3;
     } else {
-      return COLORS.priority2;
+      return colors.priority2;
     }
   }
 
@@ -256,15 +252,3 @@ export default class MainScene extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 30,
-    backgroundColor: '#FFFFFF'
-  },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  }
-});
