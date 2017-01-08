@@ -20,6 +20,18 @@ function daysRemaining(futureMoment) {
   return futureMoment.diff(NOW, 'days')
 };
 
+// Comparative function for tasks which sorts by days remaining until deadline
+function compareTasks(a, b) {
+  const daysUntilA = daysRemaining(a.deadline);
+  const daysUntilB = daysRemaining(b.deadline);
+
+  if (daysUntilA === daysUntilB) {
+    return 0;
+  }
+
+  return daysUntilA > daysUntilB ? 1 : -1;
+}
+
 export default class MainScene extends Component {
 
   state = {tasks: [
@@ -36,6 +48,13 @@ export default class MainScene extends Component {
       completed: false,
       active: moment('2017-01-06 09:30'),
       deadline: moment('2017-02-22 10:20'),
+    },
+    {
+      title: 'Do this other active thing',
+      id: 128,
+      completed: false,
+      active: moment('2017-01-06 09:30'),
+      deadline: moment('2017-01-10 10:20'),
     },
     {
       title: 'Do this completed thing',
@@ -161,12 +180,14 @@ export default class MainScene extends Component {
           <List tabLabel={'Active'}>
             {
               tasks.filter(x => this.getTaskStatus(x) === 1)
-                   .map((listItem, index) => this.renderListItem(listItem, index))
+                .sort(compareTasks)
+                .map((listItem, index) => this.renderListItem(listItem, index))
             }
           </List>
           <List tabLabel={'Upcoming'}>
             {
               tasks.filter(x => this.getTaskStatus(x) === 0)
+                .sort(compareTasks)
                 .map((listItem, index) => this.renderListItem(listItem, index))
             }
           </List>
