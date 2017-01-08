@@ -2923,6 +2923,12 @@ react-deep-force-update@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-1.0.1.tgz#f911b5be1d2a6fe387507dd6e9a767aa2924b4c7"
 
+react-native-datepicker@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.4.3.tgz#05d66f1b545fe5e797639b5581a10581ee807d5f"
+  dependencies:
+    moment "2.x.x"
+
 react-native-elements@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-0.9.0.tgz#fde48eb2f9b4379c9360e9997a4b4168197791c8"
