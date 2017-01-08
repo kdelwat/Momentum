@@ -1,6 +1,6 @@
 /*The main scene of the app: a list of tasks*/
 import React, {Component} from 'react'
-import {View, StyleSheet} from 'react-native'
+import {View, StyleSheet, AsyncStorage} from 'react-native'
 import {Button, Icon, ButtonGroup, Text, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
 import moment from 'moment'
@@ -12,6 +12,7 @@ const COLORS = {
   priority3: 'green'
 };
 
+const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
 const NOW = moment();
 
 // Get the days remaining until a Moment
@@ -45,6 +46,50 @@ export default class MainScene extends Component {
     },
   ]};
 
+  componentWillMount() {
+    this.flushStorage(); // Temporary during development
+    this.load();
+  }
+
+  // Remove the stored state
+  flushStorage = async () => {
+    await AsyncStorage.removeItem(STORAGE_KEY);
+  };
+
+  // Load the task list from AsyncStorage
+  load = async () => {
+    try {
+      const loadedStateString = await AsyncStorage.getItem(STORAGE_KEY);
+
+      // If there is no save data, exit early
+      if (loadedStateString === null) {
+        return;
+      }
+
+      // Parse the loaded string, converting timestamps to Moments
+      const loadedTasks = JSON.parse(loadedStateString).tasks.map(x => {
+        x.active = moment(x.active);
+        x.deadline = moment(x.deadline);
+        return x;
+      });
+
+      // Set the new state to the loaded tasks
+      this.setState({tasks: loadedTasks})
+
+    } catch (exception) {
+      console.error("Couldn't load past state");
+    }
+  };
+
+  // Save the current state in AsyncStorage
+  save = async () => {
+    try {
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+    } catch (exception) {
+      console.error("Couldn't save current state")
+    }
+  };
+
   // Open the edit screen for the given list item
   editListItem = (id) => {
   };
@@ -58,6 +103,7 @@ export default class MainScene extends Component {
     tasks[index].status = 2;
     // Set the new state
     this.setState({tasks});
+    this.save();
   };
 
   // Return a color dependent on the urgency of the task, based on days remaining
