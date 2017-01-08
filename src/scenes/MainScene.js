@@ -121,12 +121,13 @@ export default class MainScene extends Component {
     }
   };
 
-  changeTaskTitle = (id, newTitle) => {
+  // Replaces the task given by ID with the new task
+  replaceTask = (id, newTask) => {
     let {tasks} = this.state;
     // Find the task with the right ID
     const index = tasks.findIndex(x => x.id === id);
-    // Set its new title
-    tasks[index].title = newTitle;
+    // Replace with the new task
+    tasks[index] = newTask;
     // Set the new state
     this.setState({tasks});
     this.save();
@@ -138,9 +139,8 @@ export default class MainScene extends Component {
     const task = tasks.find(x => x.id === id);
     this.props.navigator.push({
       id: 'Edit',
-      taskID: task.id,
-      title: task.title,
-      callback: this.changeTaskTitle,
+      task: task,
+      callback: this.replaceTask,
     })
   };
 

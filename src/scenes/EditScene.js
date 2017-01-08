@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react'
 import {View, TextInput} from 'react-native'
-import {FormInput} from 'react-native-elements'
 
 export default class EditScene extends Component {
 
@@ -10,11 +9,22 @@ export default class EditScene extends Component {
     title: '',
   };
 
+  // When finished editing, create a new task and call the callback function with the task id
+  // and the new task
   finished = () => {
-    this.props.callback(this.props.taskID, this.state.title);
+    const oldTask = this.props.task;
+    const newTask = {
+      title: this.state.title,
+      id: oldTask.id,
+      completed: oldTask.completed,
+      active: oldTask.active,
+      deadline: oldTask.deadline,
+    };
+    this.props.callback(this.props.task.id, newTask);
     this._return();
   };
 
+  // Pop the EditScene off the navigation stack, returning to MainScene
   _return () {
     this.props.navigator.pop();
   }

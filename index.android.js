@@ -20,7 +20,7 @@ export default class Tasks extends Component {
       case 'Main':
         return <MainScene navigator={navigator} />
       case 'Edit':
-        return <EditScene navigator={navigator} title={route.user} taskID={route.taskID} callback={route.callback}/>
+        return <EditScene navigator={navigator} task={route.task} callback={route.callback}/>
     }
   };
 
