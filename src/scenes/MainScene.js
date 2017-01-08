@@ -121,6 +121,34 @@ export default class MainScene extends Component {
     }
   };
 
+  // Open the EditScene to create a new task
+  addTask = () => {
+    let {tasks} = this.state;
+    // The new ID is the highest current ID plus one
+    const newID = Math.max(...tasks.map(x => x.id)) + 1;
+    // Create a blank task which will be 'edited': essentially the same as creating a new one!
+    const blankTask = {
+      title: '',
+      id: newID,
+      completed: false,
+      active: moment(),
+      deadline: moment(),
+    };
+    this.props.navigator.push({
+      id: 'Edit',
+      task: blankTask,
+      callback: this.appendNewTask,
+    })
+
+  };
+
+  // Append a task to the current tasks state
+  appendNewTask = (id, newTask) => {
+    let {tasks} = this.state;
+    tasks.push(newTask);
+    this.setState({tasks});
+  };
+
   // Replaces the task given by ID with the new task
   replaceTask = (id, newTask) => {
     let {tasks} = this.state;
@@ -217,7 +245,8 @@ export default class MainScene extends Component {
           <Icon
             name={'note-add'}
             reverse
-            color='#f50'/>
+            color='#f50'
+            onPress={this.addTask}/>
         </View>
       </View>
     )
