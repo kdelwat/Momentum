@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import MainScene from './src/scenes/MainScene'
+import EditScene from './src/scenes/EditScene'
 
 export default class Tasks extends Component {
 
@@ -18,6 +19,8 @@ export default class Tasks extends Component {
     switch(route.id) {
       case 'Main':
         return <MainScene navigator={navigator} />
+      case 'Edit':
+        return <EditScene navigator={navigator} title={route.user} taskID={route.taskID} callback={route.callback}/>
     }
   };
 

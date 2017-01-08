@@ -103,6 +103,7 @@ export default class MainScene extends Component {
   // Save the current state in AsyncStorage
   save = async () => {
     try {
+      console.log(this.state.tasks)
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
     } catch (exception) {
       console.error("Couldn't save current state")
@@ -120,8 +121,27 @@ export default class MainScene extends Component {
     }
   };
 
+  changeTaskTitle = (id, newTitle) => {
+    let {tasks} = this.state;
+    // Find the task with the right ID
+    const index = tasks.findIndex(x => x.id === id);
+    // Set its new title
+    tasks[index].title = newTitle;
+    // Set the new state
+    this.setState({tasks});
+    this.save();
+  };
+
   // Open the edit screen for the given list item
   editListItem = (id) => {
+    const {tasks} = this.state;
+    const task = tasks.find(x => x.id === id);
+    this.props.navigator.push({
+      id: 'Edit',
+      taskID: task.id,
+      title: task.title,
+      callback: this.changeTaskTitle,
+    })
   };
 
   // Promote the given list item from Upcoming/Active -> Completed
