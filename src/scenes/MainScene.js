@@ -26,21 +26,21 @@ export default class MainScene extends Component {
     {
       title: 'Do this upcoming thing',
       id: 123,
-      status: 0,
-      active: moment('2017-01-08 09:30'),
-      deadline: moment('2017-01-09 10:20'),
+      completed: false,
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-09 17:00'),
     },
     {
       title: 'Do this active thing',
       id: 125,
-      status: 1,
-      active: moment('2017-01-19 09:30'),
+      completed: false,
+      active: moment('2017-01-06 09:30'),
       deadline: moment('2017-02-22 10:20'),
     },
     {
       title: 'Do this completed thing',
       id: 127,
-      status: 2,
+      completed: true,
       active: moment('2017-02-13 09:30'),
       deadline: moment('2017-02-18 10:20'),
     },
@@ -90,6 +90,17 @@ export default class MainScene extends Component {
     }
   };
 
+  // Assign a task one of three statuses: 0 - upcoming, 1 - active, 2 - completed
+  getTaskStatus = (task) => {
+    if (task.completed) {
+      return 2;
+    } else if (moment().diff(task.active) >= 0) {
+      return 1;
+    } else {
+      return 0;
+    }
+  };
+
   // Open the edit screen for the given list item
   editListItem = (id) => {
   };
@@ -100,7 +111,7 @@ export default class MainScene extends Component {
     // Find the task with the right ID
     const index = tasks.findIndex(x => x.id === id);
     // Set its state to completed
-    tasks[index].status = 2;
+    tasks[index].completed = true;
     // Set the new state
     this.setState({tasks});
     this.save();
@@ -143,19 +154,19 @@ export default class MainScene extends Component {
         >
           <List tabLabel={'Completed'}>
             {
-              tasks.filter(x => x.status === 2)
+              tasks.filter(x => this.getTaskStatus(x) === 2)
                 .map((listItem, index) => this.renderListItem(listItem, index))
             }
           </List>
           <List tabLabel={'Active'}>
             {
-              tasks.filter(x => x.status === 1)
+              tasks.filter(x => this.getTaskStatus(x) === 1)
                    .map((listItem, index) => this.renderListItem(listItem, index))
             }
           </List>
           <List tabLabel={'Upcoming'}>
             {
-              tasks.filter(x => x.status === 0)
+              tasks.filter(x => this.getTaskStatus(x) === 0)
                 .map((listItem, index) => this.renderListItem(listItem, index))
             }
           </List>
