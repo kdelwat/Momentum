@@ -10,6 +10,7 @@ import {colors, styles} from '../Styles'
 import TitleBar from '../components/TitleBar'
 
 const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
+const DATETIME_DISPLAY_FORMAT = 'MMMM Do, YYYY, [at] h:mm a';
 const NOW = moment();
 
 // Get the days remaining until a Moment, in terms of real days
@@ -247,7 +248,7 @@ export default class MainScene extends Component {
         key={index}
         title={listItem.title}
         hideChevron={true}
-        subtitle={listItem.deadline.format()}
+        subtitle={listItem.deadline.format(DATETIME_DISPLAY_FORMAT)}
         badge={{value: daysRemaining(listItem.deadline),
                 badgeContainerStyle: {backgroundColor: this.priorityColor(daysRemaining(listItem.deadline))}}}
 
