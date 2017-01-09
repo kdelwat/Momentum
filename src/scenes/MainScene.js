@@ -1,6 +1,6 @@
 /*The main scene of the app: a list of tasks*/
 import React, {Component} from 'react'
-import {View, StyleSheet, AsyncStorage, ScrollView} from 'react-native'
+import {View, StyleSheet, AsyncStorage, ScrollView, Vibration} from 'react-native'
 import {Icon, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import moment from 'moment'
@@ -193,6 +193,9 @@ export default class MainScene extends Component {
       // Set its state to completed
       tasks[index].completed = true;
     }
+
+    // Provide haptic feedback
+    Vibration.vibrate([0, 100]);
 
     // Set the new state
     this.setState({tasks});
