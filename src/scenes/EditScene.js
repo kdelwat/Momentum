@@ -90,7 +90,7 @@ export default class EditScene extends Component {
           <Button title="Deadline"
                   raised
                   onPress={this.setActiveToDeadline}
-                  backgroundColor={colors.priority2}
+                  backgroundColor={colors.main}
                   buttonStyle={styles.formButton}
           icon={{name: 'arrow-upward'}}/>
         </View>
@@ -99,7 +99,7 @@ export default class EditScene extends Component {
                 raised
                 large
                 onPress={this.finished}
-                backgroundColor={colors.priority1}
+                backgroundColor={colors.priority4}
                 buttonStyle={{marginTop: 20, marginLeft: 0, marginRight: 0}}/>
       </View>
     )
