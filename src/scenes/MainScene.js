@@ -220,7 +220,7 @@ export default class MainScene extends Component {
                            tabBarUnderlineStyle={{backgroundColor: colors.main}}
         >
           <ScrollView tabLabel={'Active'}>
-            <List>
+            <List containerStyle={styles.listContainerStyle}>
               {
                 tasks.filter(x => this.getTaskStatus(x) === 1)
                   .sort(compareTasks)
@@ -229,7 +229,7 @@ export default class MainScene extends Component {
             </List>
           </ScrollView>
           <ScrollView tabLabel={'Upcoming'}>
-            <List>
+            <List containerStyle={styles.listContainerStyle}>
               {
                 tasks.filter(x => this.getTaskStatus(x) === 0)
                   .sort(compareTasks)
@@ -238,7 +238,7 @@ export default class MainScene extends Component {
             </List>
           </ScrollView>
           <ScrollView tabLabel={'Completed'}>
-            <List>
+            <List containerStyle={styles.listContainerStyle}>
               {
                 tasks.filter(x => this.getTaskStatus(x) === 2)
                   .map((listItem, index) => this.renderListItem(listItem, index))

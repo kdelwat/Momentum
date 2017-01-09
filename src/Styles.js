@@ -26,5 +26,10 @@ export const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     color: colors.text,
-  }
+  },
+  listContainerStyle: {
+    marginTop: 0,
+    borderTopWidth: 0,
+    borderBottomWidth: 0,
+  },
 });
