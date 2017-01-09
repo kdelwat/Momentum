@@ -11,7 +11,8 @@ export const colors = {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#FFFFFF',
+    paddingBottom: 15,
   },
   horizontal: {
     flexDirection: 'row',
