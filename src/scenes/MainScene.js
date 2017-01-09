@@ -1,15 +1,15 @@
 /*The main scene of the app: a list of tasks*/
 import React, {Component} from 'react'
 import {View, StyleSheet, AsyncStorage, ScrollView} from 'react-native'
-import {Button, Icon, ButtonGroup, Text, List, ListItem} from 'react-native-elements'
-import ScrollableTabView, {DefaultTabBar, } from 'react-native-scrollable-tab-view'
+import {Icon, List, ListItem} from 'react-native-elements'
+import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
 import {colors, styles} from '../Styles'
 import TitleBar from '../components/TitleBar'
 
-const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
+const STORAGE_KEY = 'com.cadelwatson.android.tasks.state';
 const DATETIME_DISPLAY_FORMAT = 'MMMM Do, YYYY, [at] h:mm a';
 const NOW = moment();
 
@@ -42,6 +42,16 @@ function compareTasks(a, b) {
   return daysUntilA > daysUntilB ? 1 : -1;
 }
 
+// Return a color dependent on the urgency of the task, based on days remaining.
+function priorityColor(daysRemaining) {
+  if (daysRemaining <= 1) {
+    return colors.priority1;
+  } else if (daysRemaining > 7) {
+    return colors.priority3;
+  } else {
+    return colors.priority2;
+  }
+}
 export default class MainScene extends Component {
 
   state = {tasks: [
@@ -141,7 +151,6 @@ export default class MainScene extends Component {
   // Save the current state in AsyncStorage
   save = async () => {
     try {
-      console.log(this.state.tasks)
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
     } catch (exception) {
       console.error("Couldn't save current state")
@@ -230,16 +239,7 @@ export default class MainScene extends Component {
     this.save();
   };
 
-  // Return a color dependent on the urgency of the task, based on days remaining.
-  priorityColor(daysRemaining) {
-    if (daysRemaining <= 1) {
-      return colors.priority1;
-    } else if (daysRemaining > 7) {
-      return colors.priority3;
-    } else {
-      return colors.priority2;
-    }
-  }
+
 
   // Given a task object and list index, return a ListItem
   renderListItem(listItem, index) {
@@ -250,7 +250,7 @@ export default class MainScene extends Component {
         hideChevron={true}
         subtitle={listItem.deadline.format(DATETIME_DISPLAY_FORMAT)}
         badge={{value: daysRemaining(listItem.deadline),
-                badgeContainerStyle: {backgroundColor: this.priorityColor(daysRemaining(listItem.deadline))}}}
+                badgeContainerStyle: {backgroundColor: priorityColor(daysRemaining(listItem.deadline))}}}
 
         // The onPress function will call listItemPressed with the item's ID.
         onPress={() => this.editTask(listItem.id)}
