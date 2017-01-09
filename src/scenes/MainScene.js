@@ -161,8 +161,10 @@ export default class MainScene extends Component {
   // Open the EditScene to create a new task
   addTask = () => {
     let {tasks} = this.state;
+
     // The new ID is the highest current ID plus one
     const newID = Math.max(...tasks.map(x => x.id)) + 1;
+
     // Create a blank task which will be 'edited': essentially the same as creating a new one!
     const blankTask = {
       title: 'New task',
@@ -171,24 +173,24 @@ export default class MainScene extends Component {
       active: moment(),
       deadline: moment(),
     };
+
     this.props.navigator.push({
       id: 'Edit',
       task: blankTask,
-      callback: this.appendNewTask,
+      callback: this.appendNewTaskToState,
       sceneTitle: 'Add'
     })
-
   };
 
   // Append a task to the current tasks state
-  appendNewTask = (id, newTask) => {
+  appendNewTaskToState = (id, newTask) => {
     let {tasks} = this.state;
     tasks.push(newTask);
     this.setState({tasks});
   };
 
   // Replaces the task given by ID with the new task
-  replaceTask = (id, newTask) => {
+  replaceTaskInState = (id, newTask) => {
     let {tasks} = this.state;
     // Find the task with the right ID
     const index = tasks.findIndex(x => x.id === id);
@@ -199,31 +201,35 @@ export default class MainScene extends Component {
     this.save();
   };
 
-  // Open the edit screen for the given list item
-  editListItem = (id) => {
+  // Open the edit screen for the given task
+  editTask = (id) => {
     const {tasks} = this.state;
     const task = tasks.find(x => x.id === id);
+
     this.props.navigator.push({
       id: 'Edit',
       task: task,
-      callback: this.replaceTask,
+      callback: this.replaceTaskInState,
       sceneTitle: 'Edit'
     })
   };
 
-  // Promote the given list item from Upcoming/Active -> Completed
-  completeListItem = (id) => {
+  // Promote the given task from Upcoming/Active -> Completed
+  completeTask = (id) => {
     let {tasks} = this.state;
+
     // Find the task with the right ID
     const index = tasks.findIndex(x => x.id === id);
+
     // Set its state to completed
     tasks[index].completed = true;
+
     // Set the new state
     this.setState({tasks});
     this.save();
   };
 
-  // Return a color dependent on the urgency of the task, based on days remaining
+  // Return a color dependent on the urgency of the task, based on days remaining.
   priorityColor(daysRemaining) {
     if (daysRemaining <= 1) {
       return colors.priority1;
@@ -234,31 +240,37 @@ export default class MainScene extends Component {
     }
   }
 
-  // Given a task object and index, return a ListItem
+  // Given a task object and list index, return a ListItem
   renderListItem(listItem, index) {
-    return (<ListItem
-      key={index}
-      title={listItem.title}
-      hideChevron={true}
-      subtitle={listItem.deadline.format()}
-      badge={{value: daysRemaining(listItem.deadline),
-              badgeContainerStyle: {backgroundColor: this.priorityColor(daysRemaining(listItem.deadline))}}}
-      // The onPress function will call listItemPressed with the item's ID.
-      onPress={() => this.editListItem(listItem.id)}
-      onLongPress={() => this.completeListItem(listItem.id)}
-    />)
+    return (
+      <ListItem
+        key={index}
+        title={listItem.title}
+        hideChevron={true}
+        subtitle={listItem.deadline.format()}
+        badge={{value: daysRemaining(listItem.deadline),
+                badgeContainerStyle: {backgroundColor: this.priorityColor(daysRemaining(listItem.deadline))}}}
+
+        // The onPress function will call listItemPressed with the item's ID.
+        onPress={() => this.editTask(listItem.id)}
+        onLongPress={() => this.completeTask(listItem.id)}
+      />
+    )
   }
 
   render() {
     const {tasks} = this.state;
     return (
       <View style={styles.container}>
+
         <TitleBar title={'Tasks'} />
+
         <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
                            prerenderingSiblingsNumber={Infinity}
                            tabBarActiveTextColor={colors.main}
                            tabBarUnderlineStyle={{backgroundColor: colors.main}}
         >
+
           <ScrollView tabLabel={'Active'}>
             <List containerStyle={styles.listContainerStyle}>
               {
@@ -268,6 +280,7 @@ export default class MainScene extends Component {
               }
             </List>
           </ScrollView>
+
           <ScrollView tabLabel={'Upcoming'}>
             <List containerStyle={styles.listContainerStyle}>
               {
@@ -277,6 +290,7 @@ export default class MainScene extends Component {
               }
             </List>
           </ScrollView>
+
           <ScrollView tabLabel={'Completed'}>
             <List containerStyle={styles.listContainerStyle}>
               {
@@ -294,6 +308,7 @@ export default class MainScene extends Component {
             color={colors.main}
             onPress={this.addTask}/>
         </View>
+
       </View>
     )
   }
