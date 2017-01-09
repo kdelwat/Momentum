@@ -117,8 +117,14 @@ export default class MainScene extends Component {
   addTask = () => {
     let {tasks} = this.state;
 
-    // The new ID is the highest current ID plus one
-    const newID = Math.max(...tasks.map(x => x.id)) + 1;
+    // The new ID is the highest current ID plus one. If there are currently no tasks, it defaults
+    // to 1.
+    var newID;
+    if (tasks.length === 0) {
+      newID = 1;
+    } else {
+      newID = Math.max(...tasks.map(x => x.id)) + 1;
+    }
 
     // Create a blank task which will be 'edited': essentially the same as creating a new one!
     const blankTask = {
@@ -142,6 +148,7 @@ export default class MainScene extends Component {
   appendNewTaskToState = (id, newTask) => {
     let {tasks} = this.state;
     tasks.push(newTask);
+    console.log(tasks.map(x => x.id))
     this.setState({tasks});
     this.save();
   };
@@ -154,6 +161,7 @@ export default class MainScene extends Component {
     // Replace with the new task
     tasks[index] = newTask;
     // Set the new state
+    console.log(tasks.map(x => x.id))
     this.setState({tasks});
     this.save();
   };
@@ -171,15 +179,20 @@ export default class MainScene extends Component {
     })
   };
 
-  // Promote the given task from Upcoming/Active -> Completed
+  // If the given task is Active or Upcoming, move it to Completed. Otherwise, delete it
   completeTask = (id) => {
     let {tasks} = this.state;
 
     // Find the task with the right ID
     const index = tasks.findIndex(x => x.id === id);
 
-    // Set its state to completed
-    tasks[index].completed = true;
+    if (tasks[index].completed) {
+      // Remove the task at the index
+      tasks.splice(index, 1);
+    } else {
+      // Set its state to completed
+      tasks[index].completed = true;
+    }
 
     // Set the new state
     this.setState({tasks});
