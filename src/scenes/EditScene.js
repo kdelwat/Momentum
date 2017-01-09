@@ -1,7 +1,7 @@
 /* The edit task scene */
 
 import React, {Component} from 'react'
-import {View, StyleSheet, TextInput} from 'react-native'
+import {View, StyleSheet, TextInput, ScrollView} from 'react-native'
 import {Text, Button} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import moment from 'moment'
@@ -65,14 +65,14 @@ export default class EditScene extends Component {
                    autoCapitalize={'sentences'}
                    style={{marginBottom: 12}}/>
 
-        <Text style={styles.formLabel}>Title</Text>
+        <Text style={styles.formLabel}>Description</Text>
         <TextInput defaultValue={this.props.task.description}
                    multiline={true}
                    onChangeText={this.onChangeDescription}
                    underlineColorAndroid={colors.text}
                    placeholderTextColor={colors.text}
                    autoCapitalize={'sentences'}
-                   style={{marginBottom: 12}}/>
+                   style={{marginBottom: 12, flex: 2, textAlignVertical: 'top'}}/>
 
         <Text style={styles.formLabel}>Deadline</Text>
         <View style={styles.horizontal}>
