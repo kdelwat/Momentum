@@ -44,14 +44,17 @@ function compareTasks(a, b) {
 
 // Return a color dependent on the urgency of the task, based on days remaining.
 function priorityColor(daysRemaining) {
-  if (daysRemaining <= 1) {
+  if (daysRemaining <= 0) {
     return colors.priority1;
-  } else if (daysRemaining > 7) {
-    return colors.priority3;
-  } else {
+  } else if (daysRemaining === 1) {
     return colors.priority2;
+  } else if (daysRemaining <= 7) {
+    return colors.priority3
+  } else {
+    return colors.priority4;
   }
 }
+
 export default class MainScene extends Component {
 
   state = {tasks: [

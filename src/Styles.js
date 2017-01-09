@@ -5,7 +5,8 @@ export const colors = {
   text: '#43484D',
   priority1: '#D45113',
   priority2: '#F9A03F',
-  priority3: '#F8DDA4'
+  priority3: '#F2C14E',
+  priority4: '#5FAD56'
 };
 
 export const styles = StyleSheet.create({
