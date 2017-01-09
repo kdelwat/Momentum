@@ -12,9 +12,17 @@ import TitleBar from '../components/TitleBar'
 const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
 const NOW = moment();
 
-// Get the days remaining until a Moment
+// Get the days remaining until a Moment, in terms of real days
+// (i.e. not just chunks of 24 hours. For example, any time tomorrow would return 1)
 function daysRemaining(futureMoment) {
-  return futureMoment.diff(NOW, 'days')
+  const currentTimeInMinutes = NOW.hours() * 60 + NOW.minutes();
+  const futureTimeInMinutes = futureMoment.hours() * 60 + futureMoment.minutes();
+
+  if (futureTimeInMinutes < currentTimeInMinutes) {
+    return futureMoment.diff(NOW, 'days') + 1
+  } else {
+    return futureMoment.diff(NOW, 'days')
+  }
 }
 
 function millisecondsRemaining(futureMoment) {
@@ -37,25 +45,53 @@ export default class MainScene extends Component {
 
   state = {tasks: [
     {
-      title: 'Do this upcoming thing',
+      title: 'Test 1',
       id: 123,
       completed: false,
       active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-09 17:00'),
+      deadline: moment('2017-01-09 18:00'),
     },
     {
-      title: 'Do this active thing',
+      title: 'Test 2',
+      id: 124,
+      completed: false,
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-10 06:00'),
+    },
+    {
+      title: 'Test 3',
       id: 125,
       completed: false,
-      active: moment('2017-01-06 09:30'),
-      deadline: moment('2017-02-22 10:20'),
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-10 18:00'),
     },
     {
-      title: 'Do this other active thing',
+      title: 'Test 4',
+      id: 126,
+      completed: false,
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-11 06:00'),
+    },
+    {
+      title: 'Test 5',
+      id: 127,
+      completed: false,
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-11 18:00'),
+    },
+    {
+      title: 'Test 6',
       id: 128,
       completed: false,
-      active: moment('2017-01-06 09:30'),
-      deadline: moment('2017-01-10 10:20'),
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-15 06:00'),
+    },
+    {
+      title: 'Test 7',
+      id: 129,
+      completed: false,
+      active: moment('2017-01-09 09:30'),
+      deadline: moment('2017-01-15 18:00'),
     },
     {
       title: 'Do this completed thing',
