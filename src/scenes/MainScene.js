@@ -16,14 +16,10 @@ const NOW = moment();
 // Get the days remaining until a Moment, in terms of real days
 // (i.e. not just chunks of 24 hours. For example, any time tomorrow would return 1)
 function daysRemaining(futureMoment) {
-  const currentTimeInMinutes = NOW.hours() * 60 + NOW.minutes();
-  const futureTimeInMinutes = futureMoment.hours() * 60 + futureMoment.minutes();
+  const currentTimeInDays = NOW.year() * 365 + NOW.dayOfYear();
+  const futureTimeInDays = futureMoment.year() * 365 + futureMoment.dayOfYear();
 
-  if (futureTimeInMinutes < currentTimeInMinutes) {
-    return futureMoment.diff(NOW, 'days') + 1
-  } else {
-    return futureMoment.diff(NOW, 'days')
-  }
+  return futureTimeInDays - currentTimeInDays;
 }
 
 function millisecondsRemaining(futureMoment) {

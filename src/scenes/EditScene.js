@@ -101,7 +101,6 @@ export default class EditScene extends Component {
                            dateText: styles.textInput}}
           />
           <Button title="Deadline"
-                  raised
                   onPress={this.setActiveToDeadline}
                   backgroundColor={colors.main}
                   buttonStyle={styles.formButton}
@@ -109,7 +108,6 @@ export default class EditScene extends Component {
         </View>
 
         <Button title="Done"
-                raised
                 large
                 onPress={this.finished}
                 backgroundColor={colors.priority4}
