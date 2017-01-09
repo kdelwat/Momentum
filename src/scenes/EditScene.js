@@ -18,6 +18,7 @@ export default class EditScene extends Component {
   // This means that any unchanged field will remain the same.
   state = {
     title: this.props.task.title,
+    description: this.props.task.description,
     active: this.props.task.active.format(TIMEDATE_FORMAT),
     deadline: this.props.task.deadline.format(TIMEDATE_FORMAT),
   };
@@ -28,6 +29,7 @@ export default class EditScene extends Component {
     const oldTask = this.props.task;
     const newTask = {
       title: this.state.title,
+      description: this.state.description,
       id: oldTask.id,
       completed: oldTask.completed,
       active: moment(this.state.active),
@@ -44,6 +46,7 @@ export default class EditScene extends Component {
 
   // Listeners that update the state on input
   onChangeText = (title) => this.setState({title: title});
+  onChangeDescription = (description) => this.setState({description: description});
   onChangeDeadline = (date) => this.setState({deadline: date});
   onChangeActive = (date) => this.setState({active: date});
   setActiveToDeadline = () => this.setState({active: this.state.deadline});
@@ -57,6 +60,15 @@ export default class EditScene extends Component {
         <Text style={styles.formLabel}>Title</Text>
         <TextInput placeholder={this.props.task.title}
                    onChangeText={this.onChangeText}
+                   underlineColorAndroid={colors.text}
+                   placeholderTextColor={colors.text}
+                   autoCapitalize={'sentences'}
+                   style={{marginBottom: 12}}/>
+
+        <Text style={styles.formLabel}>Title</Text>
+        <TextInput defaultValue={this.props.task.description}
+                   multiline={true}
+                   onChangeText={this.onChangeDescription}
                    underlineColorAndroid={colors.text}
                    placeholderTextColor={colors.text}
                    autoCapitalize={'sentences'}

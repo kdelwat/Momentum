@@ -57,69 +57,21 @@ function priorityColor(daysRemaining) {
 
 export default class MainScene extends Component {
 
-/*  state = {tasks: [
+  state = {tasks: [
     {
       title: 'Test 1',
+      description: 'This is a bit longer, containing goodies',
       id: 123,
       completed: false,
       active: moment('2017-01-09 09:30'),
       deadline: moment('2017-01-09 18:00'),
     },
-    {
-      title: 'Test 2',
-      id: 124,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-10 06:00'),
-    },
-    {
-      title: 'Test 3',
-      id: 125,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-10 18:00'),
-    },
-    {
-      title: 'Test 4',
-      id: 126,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-11 06:00'),
-    },
-    {
-      title: 'Test 5',
-      id: 127,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-11 18:00'),
-    },
-    {
-      title: 'Test 6',
-      id: 128,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-15 06:00'),
-    },
-    {
-      title: 'Test 7',
-      id: 129,
-      completed: false,
-      active: moment('2017-01-09 09:30'),
-      deadline: moment('2017-01-15 18:00'),
-    },
-    {
-      title: 'Do this completed thing',
-      id: 127,
-      completed: true,
-      active: moment('2017-02-13 09:30'),
-      deadline: moment('2017-02-18 10:20'),
-    },
-  ]};*/
+  ]};
 
-  state = {tasks: []};
+  //state = {tasks: []};
 
   componentWillMount() {
-    //this.flushStorage(); // Temporary during development
+    this.flushStorage(); // Temporary during development
     this.load();
   }
 
@@ -183,6 +135,7 @@ export default class MainScene extends Component {
     // Create a blank task which will be 'edited': essentially the same as creating a new one!
     const blankTask = {
       title: 'New task',
+      description: '',
       id: newID,
       completed: false,
       active: moment(),
