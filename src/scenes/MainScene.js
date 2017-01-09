@@ -57,7 +57,7 @@ function priorityColor(daysRemaining) {
 
 export default class MainScene extends Component {
 
-  state = {tasks: [
+/*  state = {tasks: [
     {
       title: 'Test 1',
       id: 123,
@@ -114,10 +114,12 @@ export default class MainScene extends Component {
       active: moment('2017-02-13 09:30'),
       deadline: moment('2017-02-18 10:20'),
     },
-  ]};
+  ]};*/
+
+  state = {tasks: []};
 
   componentWillMount() {
-    this.flushStorage(); // Temporary during development
+    //this.flushStorage(); // Temporary during development
     this.load();
   }
 
@@ -200,6 +202,7 @@ export default class MainScene extends Component {
     let {tasks} = this.state;
     tasks.push(newTask);
     this.setState({tasks});
+    this.save();
   };
 
   // Replaces the task given by ID with the new task

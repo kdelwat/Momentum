@@ -59,6 +59,7 @@ export default class EditScene extends Component {
                    onChangeText={this.onChangeText}
                    underlineColorAndroid={colors.text}
                    placeholderTextColor={colors.text}
+                   autoCapitalize={'sentences'}
                    style={{marginBottom: 12}}/>
 
         <Text style={styles.formLabel}>Deadline</Text>
