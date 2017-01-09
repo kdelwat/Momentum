@@ -7,6 +7,7 @@ import moment from 'moment'
 import 'moment/locale/en-au'
 
 import {colors, styles} from '../Styles'
+import TitleBar from '../components/TitleBar'
 
 const STORAGE_KEY = 'com.cadelwatson.android.tasks.state'
 const NOW = moment();
@@ -134,6 +135,7 @@ export default class MainScene extends Component {
       id: 'Edit',
       task: blankTask,
       callback: this.appendNewTask,
+      sceneTitle: 'Add'
     })
 
   };
@@ -165,6 +167,7 @@ export default class MainScene extends Component {
       id: 'Edit',
       task: task,
       callback: this.replaceTask,
+      sceneTitle: 'Edit'
     })
   };
 
@@ -210,6 +213,7 @@ export default class MainScene extends Component {
     const {tasks} = this.state;
     return (
       <View style={styles.container}>
+        <TitleBar title={'Tasks'} />
         <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
                            prerenderingSiblingsNumber={Infinity}
                            tabBarActiveTextColor={colors.main}

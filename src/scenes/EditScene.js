@@ -6,7 +6,9 @@ import {FormLabel, FormInput, Text, Button} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import moment from 'moment'
 import 'moment/locale/en-au'
+
 import {styles} from '../Styles'
+import TitleBar from '../components/TitleBar'
 
 const TIMEDATE_FORMAT = 'YYYY-MM-DD HH:mm';
 
@@ -49,9 +51,7 @@ export default class EditScene extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.horizontal}>
-          <Text h1>Edit task</Text>
-        </View>
+        <TitleBar title={this.props.sceneTitle} />
         <FormLabel>Title</FormLabel>
         <FormInput placeholder={this.props.task.title}
                    onChangeText={this.onChangeText}/>
