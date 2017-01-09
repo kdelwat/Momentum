@@ -15,12 +15,16 @@ const NOW = moment();
 // Get the days remaining until a Moment
 function daysRemaining(futureMoment) {
   return futureMoment.diff(NOW, 'days')
-};
+}
+
+function millisecondsRemaining(futureMoment) {
+  return futureMoment.diff(NOW)
+}
 
 // Comparative function for tasks which sorts by days remaining until deadline
 function compareTasks(a, b) {
-  const daysUntilA = daysRemaining(a.deadline);
-  const daysUntilB = daysRemaining(b.deadline);
+  const daysUntilA = millisecondsRemaining(a.deadline);
+  const daysUntilB = millisecondsRemaining(b.deadline);
 
   if (daysUntilA === daysUntilB) {
     return 0;
