@@ -125,7 +125,7 @@ export default class MainScene extends Component {
     const newID = Math.max(...tasks.map(x => x.id)) + 1;
     // Create a blank task which will be 'edited': essentially the same as creating a new one!
     const blankTask = {
-      title: '',
+      title: 'New task',
       id: newID,
       completed: false,
       active: moment(),
