@@ -212,6 +212,8 @@ export default class MainScene extends Component {
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <DefaultTabBar />}
                            prerenderingSiblingsNumber={Infinity}
+                           tabBarActiveTextColor={colors.main}
+                           tabBarUnderlineStyle={{backgroundColor: colors.main}}
         >
           <ScrollView tabLabel={'Active'}>
             <List>
@@ -245,7 +247,7 @@ export default class MainScene extends Component {
           <Icon
             name={'note-add'}
             reverse
-            color='#f50'
+            color={colors.main}
             onPress={this.addTask}/>
         </View>
       </View>

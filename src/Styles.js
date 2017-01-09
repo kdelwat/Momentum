@@ -1,9 +1,10 @@
 import {StyleSheet} from 'react-native'
 
 export const colors = {
-  priority1: 'red',
-  priority2: 'orange',
-  priority3: 'green'
+  main: '#493843',
+  priority1: '#D45113',
+  priority2: '#F9A03F',
+  priority3: '#F8DDA4'
 };
 
 export const styles = StyleSheet.create({
