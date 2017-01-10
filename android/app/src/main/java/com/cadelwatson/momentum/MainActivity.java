@@ -1,4 +1,4 @@
-package com.tasks;
+package com.cadelwatson.momentum;
 
 import com.facebook.react.ReactActivity;
 
