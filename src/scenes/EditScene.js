@@ -21,7 +21,17 @@ export default class EditScene extends Component {
     description: this.props.task.description,
     active: this.props.task.active.format(TIMEDATE_FORMAT),
     deadline: this.props.task.deadline.format(TIMEDATE_FORMAT),
+    note: this.isNote(),
   };
+
+  // Return true when the edited item is a note, false otherwise
+  isNote() {
+    if (this.props.task.hasOwnProperty('note') && this.props.task.note === true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   // When finished editing, create a new task and call the callback function with the task id
   // and the new task
@@ -34,6 +44,7 @@ export default class EditScene extends Component {
       completed: oldTask.completed,
       active: moment(this.state.active),
       deadline: moment(this.state.deadline),
+      note: this.state.note,
     };
     this.props.callback(this.props.task.id, newTask);
     this._return();
@@ -51,8 +62,9 @@ export default class EditScene extends Component {
   onChangeActive = (date) => this.setState({active: date});
   setActiveToDeadline = () => this.setState({active: this.state.deadline});
 
+  // Conditionally render the date and time choosers for tasks only
   renderDateTimePicker() {
-    if (this.props.task.hasOwnProperty('note') && this.props.task.note === true) {
+    if (this.isNote()) {
       return;
     } else {
       return (
