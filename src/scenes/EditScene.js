@@ -51,6 +51,49 @@ export default class EditScene extends Component {
   onChangeActive = (date) => this.setState({active: date});
   setActiveToDeadline = () => this.setState({active: this.state.deadline});
 
+  renderDateTimePicker() {
+    if (this.props.task.hasOwnProperty('note') && this.props.task.note === true) {
+      return;
+    } else {
+      return (
+        <View>
+          <Text style={styles.formLabel}>Deadline</Text>
+          <View style={styles.horizontal}>
+            <DatePicker
+              date={this.state.deadline}
+              mode="datetime"
+              format={TIMEDATE_FORMAT}
+              onDateChange={this.onChangeDeadline}
+              style={styles.datepicker}
+              showIcon={false}
+              customStyles={{dateInput: styles.dateInput,
+                               dateText: styles.textInput}}
+            />
+          </View>
+
+          <Text style={[styles.formLabel, {marginTop: 20}]}>Active</Text>
+          <View style={[styles.horizontal, {marginBottom: 12, alignItems:'flex-end'}]}>
+            <DatePicker
+              date={this.state.active}
+              mode="datetime"
+              format={TIMEDATE_FORMAT}
+              onDateChange={this.onChangeActive}
+              style={styles.datepicker}
+              showIcon={false}
+              customStyles={{dateInput: styles.dateInput,
+                               dateText: styles.textInput}}
+            />
+            <Button title="Deadline"
+                    onPress={this.setActiveToDeadline}
+                    backgroundColor={colors.main}
+                    buttonStyle={styles.formButton}
+                    icon={{name: 'arrow-upward'}}/>
+          </View>
+        </View>
+      )
+    }
+  }
+
   render() {
     return (
       <View style={[styles.container, styles.formContainer]}>
@@ -74,38 +117,7 @@ export default class EditScene extends Component {
                    autoCapitalize={'sentences'}
                    style={{marginBottom: 12, flex: 2, textAlignVertical: 'top'}}/>
 
-        <Text style={styles.formLabel}>Deadline</Text>
-        <View style={styles.horizontal}>
-          <DatePicker
-            date={this.state.deadline}
-            mode="datetime"
-            format={TIMEDATE_FORMAT}
-            onDateChange={this.onChangeDeadline}
-            style={styles.datepicker}
-            showIcon={false}
-            customStyles={{dateInput: styles.dateInput,
-                           dateText: styles.textInput}}
-          />
-        </View>
-
-        <Text style={[styles.formLabel, {marginTop: 20}]}>Active</Text>
-        <View style={[styles.horizontal, {marginBottom: 12, alignItems:'flex-end'}]}>
-          <DatePicker
-            date={this.state.active}
-            mode="datetime"
-            format={TIMEDATE_FORMAT}
-            onDateChange={this.onChangeActive}
-            style={styles.datepicker}
-            showIcon={false}
-            customStyles={{dateInput: styles.dateInput,
-                           dateText: styles.textInput}}
-          />
-          <Button title="Deadline"
-                  onPress={this.setActiveToDeadline}
-                  backgroundColor={colors.main}
-                  buttonStyle={styles.formButton}
-          icon={{name: 'arrow-upward'}}/>
-        </View>
+        {this.renderDateTimePicker()}
 
         <Button title="Done"
                 large
