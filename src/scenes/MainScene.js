@@ -53,9 +53,28 @@ function priorityColor(daysRemaining) {
 
 export default class MainScene extends Component {
 
-  state = {tasks: []};
+  state = {tasks: [
+    {
+      title: 'New task',
+      description: '',
+      id: 1,
+      completed: false,
+      active: moment('2017-01-11 08:00'),
+      deadline: moment('2017-02-12 08:00'),
+    },
+    {
+      title: 'New note',
+      description: '',
+      id: 2,
+      completed: false,
+      active: moment('2000-01-01 08:00'),
+      deadline: moment('2000-01-01 08:00'),
+      note: true,
+    }
+  ]};
 
   componentWillMount() {
+    this.flushStorage();
     this.load();
   }
 
@@ -202,20 +221,36 @@ export default class MainScene extends Component {
 
   // Given a task object and list index, return a ListItem
   renderListItem(listItem, index) {
-    return (
-      <ListItem
-        key={index}
-        title={listItem.title}
-        hideChevron={true}
-        subtitle={listItem.deadline.format(DATETIME_DISPLAY_FORMAT)}
-        badge={{value: daysRemaining(listItem.deadline),
-                badgeContainerStyle: {backgroundColor: priorityColor(daysRemaining(listItem.deadline))}}}
+    if (listItem.hasOwnProperty('note') && listItem.note === true) {
+      // Render notes
+      return (
+        <ListItem
+          key={index}
+          title={listItem.title}
+          hideChevron={true}
+          subtitle={'Note'}
+          // The onPress function will call listItemPressed with the item's ID.
+          onPress={() => this.editTask(listItem.id)}
+          onLongPress={() => this.completeTask(listItem.id)}
+        />
+      )
+    } else {
+      // Render tasks
+      return (
+        <ListItem
+          key={index}
+          title={listItem.title}
+          hideChevron={true}
+          subtitle={listItem.deadline.format(DATETIME_DISPLAY_FORMAT)}
+          badge={{value: daysRemaining(listItem.deadline),
+                  badgeContainerStyle: {backgroundColor: priorityColor(daysRemaining(listItem.deadline))}}}
 
-        // The onPress function will call listItemPressed with the item's ID.
-        onPress={() => this.editTask(listItem.id)}
-        onLongPress={() => this.completeTask(listItem.id)}
-      />
-    )
+          // The onPress function will call listItemPressed with the item's ID.
+          onPress={() => this.editTask(listItem.id)}
+          onLongPress={() => this.completeTask(listItem.id)}
+        />
+      )
+    }
   }
 
   render() {
