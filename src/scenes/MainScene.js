@@ -233,7 +233,6 @@ export default class MainScene extends Component {
   appendNewTaskToState = (id, newTask) => {
     let {tasks} = this.state;
     tasks.push(newTask);
-    console.log(tasks.map(x => x.id));
     this.setState({tasks}, this.save);
   };
 
@@ -245,7 +244,6 @@ export default class MainScene extends Component {
     // Replace with the new task
     tasks[index] = newTask;
     // Set the new state
-    console.log(tasks.map(x => x.id));
     this.setState({tasks}, this.save);
   };
 
