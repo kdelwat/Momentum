@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 import {View, StyleSheet, AsyncStorage, ScrollView, Vibration} from 'react-native'
 import {Icon, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
+import ShareMenu from 'react-native-share-menu'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -85,6 +86,13 @@ export default class MainScene extends Component {
   componentWillMount() {
     this.flushStorage();
     this.load();
+
+    // If the app was opened from the share menu, create a new note
+    ShareMenu.getSharedText(text => {
+      if (text && text.length > 0) {
+        this.addTaskFromShared(text);
+      }
+    })
   }
 
   // Remove the stored state
@@ -137,18 +145,45 @@ export default class MainScene extends Component {
     }
   };
 
-  // Open the EditScene to create a new task
-  addTask = () => {
+  // Return the next available task ID. The new ID is the highest current ID plus one.
+  // If there are currently no tasks, it defaults to 1.
+  getAvailableID() {
     let {tasks} = this.state;
 
-    // The new ID is the highest current ID plus one. If there are currently no tasks, it defaults
-    // to 1.
-    var newID;
     if (tasks.length === 0) {
-      newID = 1;
+      return 1;
     } else {
-      newID = Math.max(...tasks.map(x => x.id)) + 1;
+      return Math.max(...tasks.map(x => x.id)) + 1;
     }
+
+  }
+
+  // Open the EditScene to create a new note, with the description as the shared text
+  addTaskFromShared = (text) => {
+    const newID = this.getAvailableID();
+
+    // Create a blank task which will be 'edited': essentially the same as creating a new one!
+    const blankTask = {
+      title: 'New task',
+      description: text,
+      id: newID,
+      completed: false,
+      active: moment(),
+      deadline: moment(),
+      note: true,
+    };
+
+    this.props.navigator.push({
+      id: 'Edit',
+      task: blankTask,
+      callback: this.appendNewTaskToState,
+      sceneTitle: 'Add'
+    })
+  };
+
+  // Open the EditScene to create a new task
+  addTask = () => {
+    const newID = this.getAvailableID();
 
     // Create a blank task which will be 'edited': essentially the same as creating a new one!
     const blankTask = {
