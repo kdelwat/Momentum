@@ -136,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-system-notification')
     compile project(':react-native-share-menu')
     compile project(':react-native-vector-icons')
     compile project(':react-native-share')
