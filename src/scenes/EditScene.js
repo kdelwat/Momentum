@@ -63,22 +63,8 @@ export default class EditScene extends Component {
   onChangeActive = (date) => this.setState({active: date});
   setActiveToDeadline = () => this.setState({active: this.state.deadline});
 
-  // Update the current mode (task or note). If a note is being converted to a task for the first
-  // time, it will have a really old deadline and active time, so set these to the current time.
-  updateMode = (newMode) => {
-    const itemMoment = moment(this.state.deadline);
-
-    if (newMode === 0 && itemMoment.diff(moment()) < 0 ) {
-      this.setState({
-        mode: newMode,
-        note: !!newMode,
-        deadline: moment().format(TIMEDATE_FORMAT),
-        active: moment().format(TIMEDATE_FORMAT)
-      })
-    } else {
-      this.setState({mode: newMode, note: !!newMode});
-    }
-  };
+  // Update the current mode (task or note).
+  updateMode = (newMode) => this.setState({mode: newMode, note: !!newMode});
 
   // Conditionally render the date and time choosers for tasks only
   renderDateTimePicker() {

@@ -28,6 +28,15 @@ function millisecondsRemaining(futureMoment) {
 
 // Comparative function for tasks which sorts by days remaining until deadline
 function compareTasks(a, b) {
+  // Notes should always come before tasks
+  if (a.note && b.note) {
+    return 0;
+  } else if (a.note) {
+    return -1;
+  } else if (b.note) {
+    return 1;
+  }
+
   const daysUntilA = millisecondsRemaining(a.deadline);
   const daysUntilB = millisecondsRemaining(b.deadline);
 
@@ -67,8 +76,8 @@ export default class MainScene extends Component {
       description: '',
       id: 2,
       completed: false,
-      active: moment('2000-01-01 08:00'),
-      deadline: moment('2000-01-01 08:00'),
+      active: moment('2020-01-01 08:00'),
+      deadline: moment('2020-01-01 08:00'),
       note: true,
     }
   ]};
@@ -121,7 +130,7 @@ export default class MainScene extends Component {
   getTaskStatus = (task) => {
     if (task.completed) {
       return 2;
-    } else if (moment().diff(task.active) >= 0) {
+    } else if (moment().diff(task.active) >= 0 || task.note) {
       return 1;
     } else {
       return 0;
