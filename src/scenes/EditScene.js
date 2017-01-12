@@ -1,9 +1,10 @@
 /* The edit task scene */
 
-import React, {Component} from 'react'
+import React, {Component, DeviceEventEmitter} from 'react'
 import {View, StyleSheet, TextInput, ScrollView} from 'react-native'
 import {Text, Button, ButtonGroup} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
+import Notification from 'react-native-system-notification'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -37,6 +38,8 @@ export default class EditScene extends Component {
   // When finished editing, create a new task and call the callback function with the task id
   // and the new task
   finished = () => {
+    this.scheduleNotifications();
+
     const oldTask = this.props.task;
     const newTask = {
       title: this.state.title,
@@ -50,6 +53,44 @@ export default class EditScene extends Component {
     this.props.callback(this.props.task.id, newTask);
     this._return();
   };
+
+  scheduleNotifications() {
+    const deadlineMoment = moment(this.state.deadline);
+    const activeMoment = moment(this.state.active);
+
+    const deadlineNotificationID = this.props.task.id;
+    const activeNotificationID = this.props.task.id * 100000;
+
+    // Check if active date has changed
+    if (this.props.task.active.diff(activeMoment) !== 0) {
+      // If there is an existing notification for the task, delete it
+      Notification.find(activeNotificationID).then(_ => Notification.delete(activeNotificationID))
+                                             .catch(_ => {});
+
+      // Schedule a notification for the active time
+      Notification.create({
+        id: activeNotificationID,
+        subject: 'Task is now active',
+        message: this.state.title,
+        sendAt: activeMoment.toDate(),
+      });
+    }
+
+    // Check if deadline date has changed
+    if (this.props.task.deadline.diff(deadlineMoment) !== 0) {
+      // If there is an existing notification for the task, delete it
+      Notification.find(deadlineNotificationID).then(_ => Notification.delete(deadlineNotificationID))
+                                               .catch(_ => {});
+
+      // Schedule a notification for one hour before the deadline
+      Notification.create({
+        id: deadlineNotificationID,
+        subject: 'Upcoming deadline',
+        message: this.state.title,
+        sendAt: deadlineMoment.subtract(1, 'hours').toDate(),
+      });
+    }
+  }
 
   // Pop the EditScene off the navigation stack, returning to MainScene
   _return () {
