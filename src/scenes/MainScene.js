@@ -306,6 +306,21 @@ export default class MainScene extends Component {
           onLongPress={() => this.completeTask(listItem.id)}
         />
       )
+    } else if (listItem.completed) {
+      // Render completed tasks
+      return (
+        <ListItem
+          key={index}
+          title={listItem.title}
+          titleStyle={{textDecorationLine: 'line-through'}}
+          hideChevron={true}
+          subtitle={listItem.deadline.format(DATETIME_DISPLAY_FORMAT)}
+
+          // The onPress function will call listItemPressed with the item's ID.
+          onPress={() => this.editTask(listItem.id)}
+          onLongPress={() => this.completeTask(listItem.id)}
+        />
+      )
     } else {
       // Render tasks
       return (
