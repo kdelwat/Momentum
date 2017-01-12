@@ -65,30 +65,11 @@ function priorityColor(daysRemaining) {
 export default class MainScene extends Component {
 
   state = {
-    tasks: [
-      {
-        title: 'New task',
-        description: '',
-        id: 1,
-        completed: false,
-        active: moment('2017-01-11 08:00'),
-        deadline: moment('2017-02-12 08:00'),
-      },
-      {
-        title: 'New note',
-        description: '',
-        id: 2,
-        completed: false,
-        active: moment('2020-01-01 08:00'),
-        deadline: moment('2020-01-01 08:00'),
-        note: true,
-      }
-    ],
-    firstRun: false, // TODO: change this back to true after development finished
+    tasks: [],
+    firstRun: true,
   };
 
   componentWillMount() {
-    this.flushStorage();
     this.load().then(() => {
 
       // If this is the first time the app is running,
