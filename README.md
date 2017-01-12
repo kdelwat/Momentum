@@ -24,3 +24,4 @@ Momentum is built using the following libraries:
 + [react-native-datepicker](https://github.com/xgfe/react-native-datepicker)
 + [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) with
   [Google's Material icons](https://material.io/icons/)
++ [react-native-share-menu](https://github.com/meedan/react-native-share-menu)
