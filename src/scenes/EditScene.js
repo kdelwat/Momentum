@@ -119,7 +119,10 @@ export default class EditScene extends Component {
         <ButtonGroup buttons={['Task', 'Note']}
                      selectedIndex={this.state.mode}
                      onPress={this.updateMode}
-                     containerStyle={{height: 40}}/>
+                     containerStyle={{height: 40,
+                                      marginBottom: 10,
+                                      marginLeft: 0,
+                                      marginRight: 0}}/>
 
         <Text style={styles.formLabel}>Title</Text>
         <TextInput placeholder={this.props.task.title}
