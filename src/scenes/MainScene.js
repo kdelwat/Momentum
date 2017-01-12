@@ -63,35 +63,44 @@ function priorityColor(daysRemaining) {
 
 export default class MainScene extends Component {
 
-  state = {tasks: [
-    {
-      title: 'New task',
-      description: '',
-      id: 1,
-      completed: false,
-      active: moment('2017-01-11 08:00'),
-      deadline: moment('2017-02-12 08:00'),
-    },
-    {
-      title: 'New note',
-      description: '',
-      id: 2,
-      completed: false,
-      active: moment('2020-01-01 08:00'),
-      deadline: moment('2020-01-01 08:00'),
-      note: true,
-    }
-  ]};
+  state = {
+    tasks: [
+      {
+        title: 'New task',
+        description: '',
+        id: 1,
+        completed: false,
+        active: moment('2017-01-11 08:00'),
+        deadline: moment('2017-02-12 08:00'),
+      },
+      {
+        title: 'New note',
+        description: '',
+        id: 2,
+        completed: false,
+        active: moment('2020-01-01 08:00'),
+        deadline: moment('2020-01-01 08:00'),
+        note: true,
+      }
+    ],
+    firstRun: true,
+  };
 
   componentWillMount() {
-    this.flushStorage();
-    this.load();
+    this.load().then(() => {
 
-    // If the app was opened from the share menu, create a new note
-    ShareMenu.getSharedText(text => {
-      if (text && text.length > 0) {
-        this.addTaskFromShared(text);
+      // If this is the first time the app is running,
+      // show the splash screen.
+      if (this.state.firstRun) {
+        this.showSplashScreen();
       }
+
+      // If the app was opened from the share menu, create a new note
+      ShareMenu.getSharedText(text => {
+        if (text && text.length > 0) {
+          this.addTaskFromShared(text);
+        }
+      })
     })
   }
 
@@ -110,15 +119,18 @@ export default class MainScene extends Component {
         return;
       }
 
+      const parsedState = JSON.parse(loadedStateString);
+
       // Parse the loaded string, converting timestamps to Moments
-      const loadedTasks = JSON.parse(loadedStateString).tasks.map(x => {
+      const loadedTasks = parsedState.tasks.map(x => {
         x.active = moment(x.active);
         x.deadline = moment(x.deadline);
         return x;
       });
 
       // Set the new state to the loaded tasks
-      this.setState({tasks: loadedTasks})
+      this.setState({tasks: loadedTasks,
+                     firstRun: parsedState.firstRun})
 
     } catch (exception) {
       console.error("Couldn't load past state");
@@ -132,6 +144,20 @@ export default class MainScene extends Component {
     } catch (exception) {
       console.error("Couldn't save current state")
     }
+  };
+
+  // Show the introductory splash screen
+  showSplashScreen() {
+    this.props.navigator.push({
+      id: 'Splash',
+      callback: this.splashScreenFinished,
+    })
+  }
+
+  // Callback for the splash screen that marks it as finished,
+  // meaning subsequent opens won't display the screen.
+  splashScreenFinished = () => {
+    this.setState({firstRun: false}, () => this.save())
   };
 
   // Assign a task one of three statuses: 0 - upcoming, 1 - active, 2 - completed

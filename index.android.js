@@ -8,6 +8,7 @@ import {
 
 import MainScene from './src/scenes/MainScene'
 import EditScene from './src/scenes/EditScene'
+import SplashScene from './src/scenes/SplashScene'
 
 export default class Tasks extends Component {
 
@@ -18,13 +19,17 @@ export default class Tasks extends Component {
   renderScene(route, navigator) {
     switch(route.id) {
       case 'Main':
-        return <MainScene navigator={navigator} />
+        return <MainScene navigator={navigator} />;
       case 'Edit':
         return <EditScene
                   navigator={navigator}
                   task={route.task}
                   callback={route.callback}
-                  sceneTitle={route.sceneTitle}/>
+                  sceneTitle={route.sceneTitle} />;
+      case 'Splash':
+        return <SplashScene
+                  navigator={navigator}
+                  callback={route.callback} />;
     }
   };
 
