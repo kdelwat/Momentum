@@ -157,7 +157,7 @@ export default class MainScene extends Component {
   // Callback for the splash screen that marks it as finished,
   // meaning subsequent opens won't display the screen.
   splashScreenFinished = () => {
-    this.setState({firstRun: false}, () => this.save())
+    this.setState({firstRun: false}, this.save)
   };
 
   // Assign a task one of three statuses: 0 - upcoming, 1 - active, 2 - completed
@@ -233,9 +233,8 @@ export default class MainScene extends Component {
   appendNewTaskToState = (id, newTask) => {
     let {tasks} = this.state;
     tasks.push(newTask);
-    console.log(tasks.map(x => x.id))
-    this.setState({tasks});
-    this.save();
+    console.log(tasks.map(x => x.id));
+    this.setState({tasks}, this.save);
   };
 
   // Replaces the task given by ID with the new task
@@ -246,9 +245,8 @@ export default class MainScene extends Component {
     // Replace with the new task
     tasks[index] = newTask;
     // Set the new state
-    console.log(tasks.map(x => x.id))
-    this.setState({tasks});
-    this.save();
+    console.log(tasks.map(x => x.id));
+    this.setState({tasks}, this.save);
   };
 
   // Open the edit screen for the given task
@@ -283,8 +281,7 @@ export default class MainScene extends Component {
     Vibration.vibrate([0, 100]);
 
     // Set the new state
-    this.setState({tasks});
-    this.save();
+    this.setState({tasks}, this.save);
   };
 
 
