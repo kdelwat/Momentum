@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react'
 import {View, StyleSheet, TextInput, ScrollView} from 'react-native'
-import {Text, Button} from 'react-native-elements'
+import {Text, Button, ButtonGroup} from 'react-native-elements'
 import DatePicker from 'react-native-datepicker'
 import moment from 'moment'
 import 'moment/locale/en-au'
@@ -22,6 +22,7 @@ export default class EditScene extends Component {
     active: this.props.task.active.format(TIMEDATE_FORMAT),
     deadline: this.props.task.deadline.format(TIMEDATE_FORMAT),
     note: this.isNote(),
+    mode: this.isNote() ? 1 : 0, // mode 0 is a task, mode 1 is a note
   };
 
   // Return true when the edited item is a note, false otherwise
@@ -62,9 +63,26 @@ export default class EditScene extends Component {
   onChangeActive = (date) => this.setState({active: date});
   setActiveToDeadline = () => this.setState({active: this.state.deadline});
 
+  // Update the current mode (task or note). If a note is being converted to a task for the first
+  // time, it will have a really old deadline and active time, so set these to the current time.
+  updateMode = (newMode) => {
+    const itemMoment = moment(this.state.deadline);
+
+    if (newMode === 0 && itemMoment.diff(moment()) < 0 ) {
+      this.setState({
+        mode: newMode,
+        note: !!newMode,
+        deadline: moment().format(TIMEDATE_FORMAT),
+        active: moment().format(TIMEDATE_FORMAT)
+      })
+    } else {
+      this.setState({mode: newMode, note: !!newMode});
+    }
+  };
+
   // Conditionally render the date and time choosers for tasks only
   renderDateTimePicker() {
-    if (this.isNote()) {
+    if (this.state.mode === 1) {
       return;
     } else {
       return (
@@ -111,6 +129,11 @@ export default class EditScene extends Component {
       <View style={[styles.container, styles.formContainer]}>
 
         <TitleBar title={this.props.sceneTitle} />
+
+        <ButtonGroup buttons={['Task', 'Note']}
+                     selectedIndex={this.state.mode}
+                     onPress={this.updateMode}
+                     containerStyle={{height: 40}}/>
 
         <Text style={styles.formLabel}>Title</Text>
         <TextInput placeholder={this.props.task.title}
