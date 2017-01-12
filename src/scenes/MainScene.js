@@ -4,6 +4,7 @@ import {View, StyleSheet, AsyncStorage, ScrollView, Vibration} from 'react-nativ
 import {Icon, List, ListItem} from 'react-native-elements'
 import ScrollableTabView, {DefaultTabBar} from 'react-native-scrollable-tab-view'
 import ShareMenu from 'react-native-share-menu'
+import Notification from 'react-native-system-notification'
 import moment from 'moment'
 import 'moment/locale/en-au'
 
@@ -83,10 +84,11 @@ export default class MainScene extends Component {
         note: true,
       }
     ],
-    firstRun: true,
+    firstRun: false, // TODO: change this back to true after development finished
   };
 
   componentWillMount() {
+    this.flushStorage();
     this.load().then(() => {
 
       // If this is the first time the app is running,
@@ -273,6 +275,7 @@ export default class MainScene extends Component {
     } else {
       // Set its state to completed
       tasks[index].completed = true;
+      this.removeNotifications(tasks[index].id)
     }
 
     // Provide haptic feedback
@@ -282,7 +285,11 @@ export default class MainScene extends Component {
     this.setState({tasks}, this.save);
   };
 
-
+  // Remove all scheduled notifications for the task with the given ID
+  removeNotifications(id) {
+    Notification.delete(id).catch(_ => {});
+    Notification.delete(id * 100000).catch(_ => {});
+  }
 
   // Given a task object and list index, return a ListItem
   renderListItem(listItem, index) {
