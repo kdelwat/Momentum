@@ -25,7 +25,9 @@ Momentum is built using the following libraries:
 + [react-native-vector-icons](https://github.com/oblador/react-native-vector-icons) with
   [Google's Material icons](https://material.io/icons/)
 + [react-native-share-menu](https://github.com/meedan/react-native-share-menu)
-+ [react-native-system-notification](https://github.com/neson/react-native-system-notification),
++ 
+[react-native-system-notification](https://github.com/zetavg/react-native-system-notification),
   with some unmerged pull requests applied
-  ([#72](https://github.com/neson/react-native-system-notification/pull/72) and
-  [#76](https://github.com/neson/react-native-system-notification/pull/76)).
+  ([#72](https://github.com/zetavg/react-native-system-notification/pull/72) 
+and
+  [#76](https://github.com/zetavg/react-native-system-notification/pull/76)).
